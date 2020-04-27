@@ -21,31 +21,31 @@ function establishedConnection() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
         console.log(res);
-        inquirer.prompt([
+        inquirer.prompt(
             {
-              type: "input",
-              name: "itemID",
-              message: "What is the item ID of the product you would like to purchase?"
+                type: "input",
+                name: "itemID",
+                message: "What is the item ID of the product you would like to purchase?"
             },
             {
                 type: "input",
                 name: "units",
                 message: "What is the quantity of this product you would like to purchase?"
             }
-        ])
-        connection.end(); 
+        ).then(function(item) {
+            var theItem = item.itemID;
+            connection.query(
+                "SELECT * FROM products WHERE ?",
+                {
+                    id: theItem
+                }, function(err, res) {
+                    if (err) throw err;
+                    console.log(res);
+                    connection.end();
+                }
+            )
+        })
+         
     });
     
 }
-
-// function userPrompt(err) {
-//     if(err) throw err;
-//     inquirer.prompt([
-//         {
-//           type: "input",
-//           name: "itemID",
-//           message: "What is the item ID of the product you would like to purchase?"
-//         }
-//     ])
-//     connection.end();
-// }
