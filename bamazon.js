@@ -35,7 +35,7 @@ function establishedConnection() {
         ).then(function(item) {
             var theItem = item.itemID;
             connection.query(
-                "SELECT * FROM products WHERE ?",
+                "SELECT stock_quantity FROM products WHERE ?",
                 {
                     id: theItem
                 }, function(err, res) {
