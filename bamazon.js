@@ -58,9 +58,27 @@ function customerPrompt() {
                             }
                         ]
                     )
+                    connection.end()
+                } else {
+                    console.log("There isnt enough in stock!")
+                    inquirer.prompt(
+                        {
+                            type: "list",
+                            name: "restart",
+                            message: "Restart your search?",
+                            choices: ["Yes","No"]
+                        }
+                    ).then(function(item) {
+                        if (item.restart === "Yes") {
+                            establishedConnection();
+                        } else {
+                            connection.end();
+                        }
+                    })
+
                 }
-                console.log(res);
-                connection.end();
+                //console.log(res);
+                //connection.end();
             }
         )
     })
