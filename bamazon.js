@@ -45,19 +45,20 @@ function customerPrompt() {
             }
             ,function(err, res) {
                 if (err) throw err;
-                // if (item.units <= /*available stock || [ RowDataPacket { stock_quantity: 22 } ]*/ ) {
-                //     connection.query(
-                //         "UPDATE products SET ? WHERE ?", 
-                //         [
-                //             {
-                //                 stock_quantity: /*stock_quantity - item.units*/
-                //             },
-                //             {
-                //                 id: itemID
-                //             }
-                //         ]
-                //     )
-                // }
+                var itemsLeft = res[0].stock_quantity;
+                if (item.units <= itemsLeft) {
+                    connection.query(
+                        "UPDATE products SET ? WHERE ?", 
+                        [
+                            {
+                                stock_quantity: itemsLeft - item.units
+                            },
+                            {
+                                id: theItem
+                            }
+                        ]
+                    )
+                }
                 console.log(res);
                 connection.end();
             }
