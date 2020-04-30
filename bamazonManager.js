@@ -62,7 +62,7 @@ function lowInventory() {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
             if (res[i].stock_quantity <= 15) {
-                console.log(res[i].product_name, res[i].stock_quantity + " - low!");
+                console.log(res[i].product_name + " - " + res[i].stock_quantity + " - low!");
             }
         }
         connection.end();
@@ -76,7 +76,7 @@ function addInventory() {
             type: "list",
             name: "items",
             message: "What item would you like to update inventory for?",
-            choices: res[i].product_name
+            choices: arr
         },
         {
             type: "input",
