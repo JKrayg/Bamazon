@@ -1,6 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var arr = ["Football", "Laptop", "Computer Desk", "50' Hose", "Hand Soap", "Lamp", "Basketball Net", "13'' Pan", "55'' HD Flatscreen", "Educational Book"]
+//var arr = ["Football", "Laptop", "Computer Desk", "50' Hose", "Hand Soap", "Lamp", "Basketball Net", "13'' Pan", "55'' HD Flatscreen", "Educational Book"]
+var arr = []
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -13,6 +14,14 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     establishedConnection()
+})
+
+connection.query("SELECT product_name FROM products", function(err, res) {
+    if (err) throw err;
+    for (var i = 0; i < res.length; i++) { 
+       arr.push(res[i].product_name)
+    }
+    
 })
 
 
@@ -139,9 +148,9 @@ function addProduct() {
             price: input.price,
             stock_quantity: input.stock
         }
-        ,
-        function (err, res) {
+        ,function (err, res) {
             if (err) throw err;
+            //getAllProducts()
             console.log("Your product was submitted into the inventory");
             checkInventory();
         });
